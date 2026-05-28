@@ -11,7 +11,7 @@ Production‑ready deployable – Docker support, graceful shutdown, keep‑aliv
 
 Whether you want a lightning‑fast API server or a static file server that outperforms Nginx for small payloads, RapidServe delivers.
 
-#Key Optimisations (How It’s So Fast)
+# Key Optimisations (How It’s So Fast)
 Technique	What It Does	Latency / Memory Benefit
 Edge‑triggered epoll	I/O thread sleeps until data arrives, then drains all available data in one loop.	Zero CPU waste, can handle 10k idle connections on one core.
 Non‑blocking sockets	accept, recv, send never block; event‑driven all the way.	No head‑of‑line blocking; one I/O thread services thousands of clients.
@@ -35,38 +35,8 @@ Python Flask + gunicorn	3,200	31 ms	4,100	24 ms	110 MB
 
 Run the benchmarks yourself with the provided scripts.
 
-Architecture Overview
-text
-                   Client
-                     │
-            ┌────────▼────────┐
-            │   TCP Stack     │
-            └────────┬────────┘
-                     │
-          ┌──────────▼──────────┐
-          │   epoll Event Loop  │  (single I/O thread)
-          └─┬────────┬─────────┬┘
-            │        │         │
-     ┌──────▼──┐ ┌──▼───┐ ┌───▼──────┐
-     │ Acceptor│ │Reader│ │Writer     │
-     └──────┬──┘ └──┬───┘ └───┬──────┘
-            │       │          │
-   ┌────────▼───────▼──────────▼───────┐
-   │        Connection Objects         │  (one per client, holds arena)
-   └────────────────┬─────────────────┘
-                    │
-        ┌───────────▼───────────┐
-        │     HTTP Parser       │  (zero‑copy, arena‑backed)
-        └───────────┬───────────┘
-                    │
-        ┌───────────▼───────────┐
-        │   Router + Handlers   │  (dispatched to thread pool)
-        └───────────┬───────────┘
-                    │
-        ┌───────────▼───────────┐
-        │    Thread Pool        │  (CPU‑bound tasks)
-        └───────────────────────┘
-#Getting Started
+
+# Getting Started
 Prerequisites
 Linux (kernel 4.5+ for accept4; 5.1+ for io_uring – optional)
 
@@ -74,7 +44,7 @@ GCC 12+ or Clang 15+ with C++20 support
 
 CMake ≥ 3.16
 
-#Build & Run (Local)
+# Build & Run (Local)
 bash
 
 git clone https://github.com/YOUR_USERNAME/rapidserve.git
@@ -86,7 +56,7 @@ make -j$(nproc)
 ./rapidserve --port 8080 --static ../static
 Visit http://localhost:8080 – you’ll see the built‑in “Hello World” page.
 
-#Docker
+# Docker
 bash
 docker build -t rapidserve .
 docker run -p 8080:8080 rapidserve
@@ -116,7 +86,7 @@ int main() {
 #Serving Static Files
 Place your HTML, CSS, JS, images inside the static/ folder. They are loaded into RAM at startup and served with zero disk I/O. Access them at http://yourserver/static/filename.
 
-#Embedding in Another C++ Project
+# Embedding in Another C++ Project
 Quickpeek can be compiled directly into your existing codebase:
 
 Copy the src/ folder into your project.
@@ -137,7 +107,7 @@ Pre‑parsed / pre‑loaded data – static files are already in RAM; HTTP heade
 
 Result: Time‑to‑first‑byte is often < 50 µs on loopback.
 
-#Memory
+# Memory
 Each connection holds exactly 64 KB of workspace – no per‑request allocation.
 
 No garbage collector, no interpreter state, no JIT code caches.
