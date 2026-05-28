@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RapidServe Static File</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Hello from RapidServe!</h1>
+    <p>This static file was served from memory with <strong>zero disk I/O</strong> after startup.</p>
+    <script>
+        fetch('/api/hello').then(r=>r.json()).then(d=>console.log(d));
+    </script>
+</body>
+</html>
