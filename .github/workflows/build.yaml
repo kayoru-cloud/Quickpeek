@@ -1,0 +1,20 @@
+name: Build & Test
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: |
+          cmake -B build -DCMAKE_BUILD_TYPE=Release
+          cmake --build build
+      - name: Quick smoke test
+        run: |
+          ./build/rapidserve --port 9090 &
+          sleep 1
+          curl -s http://localhost:9090/ | grep -q "RapidServe"
+          curl -s http://localhost:9090/static/index.html | grep -q "Hello from RapidServe"
+          kill %1
