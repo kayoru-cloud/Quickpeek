@@ -76,7 +76,9 @@ CMake ≥ 3.16
 
 Build & Run (Local)
 bash
+
 git clone https://github.com/YOUR_USERNAME/rapidserve.git
+
 cd rapidserve
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
