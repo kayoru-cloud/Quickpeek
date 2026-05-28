@@ -1,4 +1,4 @@
-# Quickpeek
+se# Quickpeek
 Modern web frameworks (Express, Flask, etc.) are easy to use but carry huge runtime overhead – garbage collection, JIT compilation, heavy per‑request allocations, and blocking I/O lead to sluggish response times and bloated memory usage.
 Quickpeek is a from‑scratch C++ backend that serves web pages with microsecond latencies and 10× less memory than typical scripting‑language solutions. It’s designed to be:
 Blazing fast – sub‑millisecond P50 latency for dynamic requests.
@@ -9,7 +9,7 @@ Self‑contained – no external dependencies beyond a C++20 compiler and Linux 
 
 Production‑ready deployable – Docker support, graceful shutdown, keep‑alive, and pre‑loaded static file serving.
 
-Whether you want a lightning‑fast API server or a static file server that outperforms Nginx for small payloads, RapidServe delivers.
+Whether you want a lightning‑fast API server or a static file server that outperforms Nginx for small payloads, Quickpeek delivers.
 
 # Key Optimisations (How It’s So Fast)
 Technique	What It Does	Latency / Memory Benefit
@@ -27,11 +27,11 @@ Tool: wrk with -t4 -c100 -d30s
 Payload: Small dynamic “Hello World” HTML (~150 bytes), and a 512‑byte static HTML file.
 
 Server	Dynamic RPS	Dynamic Latency (avg)	Static RPS	Static Latency (avg)	Memory (RSS)
-RapidServe (C++)	95,000	1.0 ms	110,000	0.9 ms	8 MB
+Quickpeek (C++)	95,000	1.0 ms	110,000	0.9 ms	8 MB
 Nginx (static only)	–	–	85,000	1.1 ms	15 MB
 Node.js + Express	22,000	4.5 ms	28,000	3.5 ms	45 MB
 Python Flask + gunicorn	3,200	31 ms	4,100	24 ms	110 MB
-✅ RapidServe matches Nginx static file performance while using half the memory, and beats Node.js by 4× in throughput with 5× less RAM.
+✅ Quickpeek matches Nginx static file performance while using half the memory, and beats Node.js by 4× in throughput with 5× less RAM.
 
 Run the benchmarks yourself with the provided scripts.
 
@@ -47,19 +47,19 @@ CMake ≥ 3.16
 # Build & Run (Local)
 bash
 
-git clone https://github.com/YOUR_USERNAME/rapidserve.git
+git clone https://github.com/YOUR_USERNAME/Quickpeek.git
 
-cd rapidserve
+cd quickpeek
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j$(nproc)
-./rapidserve --port 8080 --static ../static
+./quickpeek --port 8080 --static ../static
 Visit http://localhost:8080 – you’ll see the built‑in “Hello World” page.
 
 # Docker
 bash
-docker build -t rapidserve .
-docker run -p 8080:8080 rapidserve
+docker build -t quickpeek .
+docker run -p 8080:8080 quickpeek
 Command Line Options
 Argument	Default	Description
 --port	8080	TCP port to listen on
@@ -74,7 +74,7 @@ cpp
 #include "router.hpp"
 
 int main() {
-    rapidserve::Server server("0.0.0.0", 8080, 4, "static");
+    quickpeek::Server server("0.0.0.0", 8080, 4, "static");
     
     server.router().add_route("/api/login", [](auto& req) -> rapidserve::HttpResponse {
         // Process req.body (JSON), validate user...
