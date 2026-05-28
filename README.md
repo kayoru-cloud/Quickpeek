@@ -11,7 +11,7 @@ Production‑ready deployable – Docker support, graceful shutdown, keep‑aliv
 
 Whether you want a lightning‑fast API server or a static file server that outperforms Nginx for small payloads, RapidServe delivers.
 
-Key Optimisations (How It’s So Fast)
+#Key Optimisations (How It’s So Fast)
 Technique	What It Does	Latency / Memory Benefit
 Edge‑triggered epoll	I/O thread sleeps until data arrives, then drains all available data in one loop.	Zero CPU waste, can handle 10k idle connections on one core.
 Non‑blocking sockets	accept, recv, send never block; event‑driven all the way.	No head‑of‑line blocking; one I/O thread services thousands of clients.
@@ -66,7 +66,7 @@ text
         ┌───────────▼───────────┐
         │    Thread Pool        │  (CPU‑bound tasks)
         └───────────────────────┘
-Getting Started
+#Getting Started
 Prerequisites
 Linux (kernel 4.5+ for accept4; 5.1+ for io_uring – optional)
 
@@ -74,7 +74,7 @@ GCC 12+ or Clang 15+ with C++20 support
 
 CMake ≥ 3.16
 
-Build & Run (Local)
+#Build & Run (Local)
 bash
 
 git clone https://github.com/YOUR_USERNAME/rapidserve.git
@@ -86,7 +86,7 @@ make -j$(nproc)
 ./rapidserve --port 8080 --static ../static
 Visit http://localhost:8080 – you’ll see the built‑in “Hello World” page.
 
-Docker
+#Docker
 bash
 docker build -t rapidserve .
 docker run -p 8080:8080 rapidserve
@@ -113,11 +113,11 @@ int main() {
     
     server.run();
 }
-Serving Static Files
+#Serving Static Files
 Place your HTML, CSS, JS, images inside the static/ folder. They are loaded into RAM at startup and served with zero disk I/O. Access them at http://yourserver/static/filename.
 
-Embedding in Another C++ Project
-RapidServe can be compiled directly into your existing codebase:
+#Embedding in Another C++ Project
+Quickpeek can be compiled directly into your existing codebase:
 
 Copy the src/ folder into your project.
 
@@ -125,7 +125,7 @@ Add all .cpp files (except main.cpp) to your CMake target.
 
 Instantiate Server, register routes, and call run() (in a background thread if needed).
 
-How RapidServe Achieves Low Latency & Low Memory
+#How Quickpeek Achieves Low Latency & Low Memory
 Latency
 No allocation in the hot path – arena allocator gives constant‑time memory access.
 
@@ -137,7 +137,7 @@ Pre‑parsed / pre‑loaded data – static files are already in RAM; HTTP heade
 
 Result: Time‑to‑first‑byte is often < 50 µs on loopback.
 
-Memory
+#Memory
 Each connection holds exactly 64 KB of workspace – no per‑request allocation.
 
 No garbage collector, no interpreter state, no JIT code caches.
@@ -146,7 +146,7 @@ The base binary is ~300 KB, and the resident set size hovers around 8 MB eve
 
 Contributions are welcome! If you find a bug, want to add features (HTTP/2, WebSockets, TLS), or improve performance, feel free to open an issue or submit a pull request.
 
-RapidServe is more than a toy server – it’s a demonstration of how deep understanding of operating system primitives and C++ can create a web backend that punches far above its weight. Use it as a learning tool, a microservice backend, or the foundation for your next high‑performance project.
+Quickpeek is more than a toy server – it’s a demonstration of how deep understanding of operating system primitives and C++ can create a web backend that punches far above its weight. Use it as a learning tool, a microservice backend, or the foundation for your next high‑performance project.
 
 If you find this project useful, please ⭐ it on GitHub!
 
