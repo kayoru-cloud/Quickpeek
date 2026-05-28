@@ -144,23 +144,6 @@ No garbage collector, no interpreter state, no JIT code caches.
 
 The base binary is ~300 KB, and the resident set size hovers around 8 MB even under load.
 
-Code Structure
-text
-rapidserve/
-├── CMakeLists.txt               # Build configuration
-├── Dockerfile
-├── static/                      # Default static assets
-├── src/
-│   ├── main.cpp                 # Entry point, argument parsing
-│   ├── server.hpp/cpp           # Core event loop, epoll management
-│   ├── connection.hpp/cpp       # Per-client state, read/write handling
-│   ├── arena_allocator.hpp      # Bump allocator (64 KB per connection)
-│   ├── http_parser.hpp/cpp      # Zero‑copy HTTP/1.1 parser
-│   ├── router.hpp/cpp           # Route registration and dispatch
-│   ├── thread_pool.hpp          # Worker thread pool
-│   └── file_cache.hpp/cpp       # In‑memory static file cache
-└── .github/workflows/build.yml  # CI smoke test
-Contributing
 Contributions are welcome! If you find a bug, want to add features (HTTP/2, WebSockets, TLS), or improve performance, feel free to open an issue or submit a pull request.
 
 RapidServe is more than a toy server – it’s a demonstration of how deep understanding of operating system primitives and C++ can create a web backend that punches far above its weight. Use it as a learning tool, a microservice backend, or the foundation for your next high‑performance project.
